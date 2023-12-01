@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import UserInfo from "../../components/UserInfo.js";
 import './LoggedInPage.css';
 
 const LoggedInPage = () => {
-  const { logout } = useAuth0();
+  const { user, logout } = useAuth0();
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkUser = async () => {
