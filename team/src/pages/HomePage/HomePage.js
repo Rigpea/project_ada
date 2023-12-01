@@ -1,13 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    navigate('/login');
+  };
+
+  const navigateToSignup = () => {
+    navigate('/signup');
+  };
+
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
-      <Link to="/login">Login</Link>
+      <button onClick={navigateToLogin}>Login</button>
       <br />
-      <Link to="/signup">Sign Up</Link>
+      <button onClick={navigateToSignup}>Sign Up</button>
     </div>
   );
 };
