@@ -1,4 +1,6 @@
 // Create elements
+import './Recommendations.css'; // Import corresponding CSS file
+
 const label = document.createElement('label');
 label.setAttribute('for', 'userInput');
 label.textContent = 'Please input your goals for the week (500 characters max):';
