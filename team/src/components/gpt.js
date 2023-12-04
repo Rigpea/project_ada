@@ -1,52 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './gpt.css'; // Import corresponding CSS file
 
 const Recommendations = () => {
   const [userInput, setUserInput] = useState('');
   const [recommendation, setRecommendation] = useState('');
 
-  useEffect(() => {
-    const processInput = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/gpt', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ user_input: userInput }),
-        });
+  const processInput = useCallback(async () => {
+    try {
+      const response = await fetch('/generate_schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userInput }), // Update to match the property name
+      });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setRecommendation(data);
-      } catch (error) {
-        console.error('Error fetching recommendation:', error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      const data = await response.json();
+      setRecommendation(data.schedule); // Assuming schedule is the property you want to display
+    } catch (error) {
+      console.error('Error fetching recommendation:', error);
+    }
+  }, [userInput]); // Include userInput in the dependency array
+
+  useEffect(() => {
+    const effect = async () => {
+      await processInput(); // Call the function on component mount
     };
 
-    document.getElementById('userInput').addEventListener('input', processInput);
+    effect();
 
     return () => {
-      document.getElementById('userInput').removeEventListener('input', processInput);
+      // Cleanup logic if needed
     };
-  }, [userInput]);
+  }, [userInput, processInput]); // Include processInput in the dependency array
 
   return (
-    <div>
-      <label htmlFor="userInput">
-        Please input your goals for the week (500 characters max):
-      </label>
+    <div className="gpt-container">
       <textarea
-        id="userInput"
-        maxLength="500"
+        className="input-textbox"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
+        placeholder="Please enter your goals here"
       />
-      <h2>Our suggestion:</h2>
-      <div id="outputBox">{recommendation}</div>
+      <button className="submit-button" onClick={processInput}>Submit</button>
+      <textarea
+        className="output-textbox"
+        value={recommendation}
+        readOnly
+        placeholder="Your personalized schedule will appear here"
+      />
     </div>
   );
 };
