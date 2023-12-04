@@ -7,7 +7,7 @@ const Recommendations = () => {
 
   const processInput = useCallback(async () => {
     try {
-      const response = await fetch('/generate_schedule', {
+      const response = await fetch('/handle_generate_schedule', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ const Recommendations = () => {
       }
 
       const data = await response.json();
-      setRecommendation(data.schedule); // Assuming schedule is the property you want to display
+      setRecommendation(data); // Assuming schedule is the property you want to display
     } catch (error) {
       console.error('Error fetching recommendation:', error);
     }
