@@ -1,53 +1,54 @@
-import React, { useState } from 'react';
-import './ChatPage.css';
+import React, { useState, useEffect } from 'react';
+import './gpt.css'; // Import corresponding CSS file
 
-function ChatPage() {
-    const [item, setItem] = useState('');
-    const [description, setDescription] = useState('');
-    const [response, setResponse] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+const Recommendations = () => {
+  const [userInput, setUserInput] = useState('');
+  const [recommendation, setRecommendation] = useState('');
 
-    const handleSubmit = () => {
-        setIsLoading(true);
-        fetch('http://localhost:8080/api/gpt-chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ item, description })
-        })
-        .then(res => res.json())
-        .then(data => {
-            setResponse(data.response);
-            setIsLoading(false);
-        })
-        .catch(err => {
-            console.error('Error:', err);
-            setIsLoading(false);
+  useEffect(() => {
+    const processInput = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/gpt', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user_input: userInput }),
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setRecommendation(data);
+      } catch (error) {
+        console.error('Error fetching recommendation:', error);
+      }
     };
 
-    return (
-        <div>
-            <h1>Chat with PiggyBank Teller</h1>
-            <input 
-                type="text" 
-                value={item} 
-                onChange={e => setItem(e.target.value)} 
-                placeholder="Item"
-            />
-            <textarea 
-                value={description} 
-                onChange={e => setDescription(e.target.value)} 
-                placeholder="Describe the item"
-            />
-            <button onClick={handleSubmit}>Submit</button>
-            
-            {isLoading ? (
-                <p>Loading...</p>
-            ) : (
-                <div className="response-box">Response: {response}</div>
-            )}
-        </div>
-    );
-}
+    document.getElementById('userInput').addEventListener('input', processInput);
 
-export default ChatPage;
+    return () => {
+      document.getElementById('userInput').removeEventListener('input', processInput);
+    };
+  }, [userInput]);
+
+  return (
+    <div>
+      <label htmlFor="userInput">
+        Please input your goals for the week (500 characters max):
+      </label>
+      <textarea
+        id="userInput"
+        maxLength="500"
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+      />
+      <h2>Our suggestion:</h2>
+      <div id="outputBox">{recommendation}</div>
+    </div>
+  );
+};
+
+export default Recommendations;

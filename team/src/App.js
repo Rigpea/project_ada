@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoggedInPage from './pages/LoggedInPage/LoggedInPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import Recommendations from './pages/Recommendations/Recommendations'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/loggedIn" element={<LoggedInPage />} />
         <Route path="/profilepage" element={<ProfilePage />} />
+        <Route path="/recommendations" element={<Recommendations />} />
       </Routes>
     </Router>
   );
