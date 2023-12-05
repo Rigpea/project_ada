@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoggedInPage from './pages/LoggedInPage/LoggedInPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 
 const App = () => {
   return (
@@ -12,10 +13,12 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        {/* <Route path="/register" element={<RegistrationPage.js/>} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/loggedIn" element={<LoggedInPage />} />
         <Route path="/profilepage" element={<ProfilePage />} />
+        <Route path="/registrationPage" element={<RegistrationPage/>} />
       </Routes>
     </Router>
   );
