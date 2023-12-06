@@ -1,78 +1,79 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
+from google.cloud.sql.connector import Connector
 import mysql.connector
+import sqlalchemy
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
-# Database configuration
-app.config['DB_HOST'] = 'localhost'
-app.config['DB_USER'] = 'root'
-app.config['DB_NAME'] = 'team'
+#init the database connection variables
+DB_CONNECTION_STRING = 'credible-art-407019:us-central1:adadatabase'
+DB_USER = 'root'
+DB_PASSWORD = 'DCo^MbA*-cSo\$R`'
+DB_NAME = 'user'
 
-# Function to get database connection
-def get_db_connection():
-    conn = mysql.connector.connect(
-        host=app.config['DB_HOST'],
-        user=app.config['DB_USER'],
-        database=app.config['DB_NAME']
+connector = Connector()
+#set up the connection
+def getconn():
+    return connector.connect(
+        DB_CONNECTION_STRING,
+        "pymysql",
+        user=DB_USER,
+        password=DB_PASSWORD,
+        db=DB_NAME
     )
-    return conn
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn
+)
+@app.route('/test', methods=['GET'])
+def test_endpoint():
+    return jsonify({"message": "Hello from Flask!"})
 
-
-@app.route('/api/register', methods=['POST'])
-def register_user():
-    data = request.json
-    display_name = data.get('displayName')
-    date_of_birth = data.get('dateOfBirth')
-    hobbies = data.get('hobbies')
-
-    # Call a function to insert data into the database
-    success = insert_user_into_database(display_name, date_of_birth, hobbies)
-
-    if success:
-        return jsonify({'success': True, 'message': 'User registered successfully'})
-    else:
-        return jsonify({'success': False, 'message': 'Registration failed'}), 400
-
-def insert_user_into_database(display_name, date_of_birth, hobbies):
-    conn = get_db_connection()
-    cursor = conn.cursor()
+@app.route('/checkUserStatus', methods=['GET'])
+def check_user_status():
     try:
-        cursor.execute("INSERT INTO users (display_name, DateofBirth, hobbies) VALUES (%s, %s, %s)", 
-                       (display_name, date_of_birth, hobbies))
-        conn.commit()
-        return True
+        email = request.args.get('email')
+        with pool.connect() as conn:
+            query = sqlalchemy.text(
+                "SELECT * FROM user_basic_info WHERE email = :email"
+            )
+            result = conn.execute(query, {'email': email}).fetchone()
+            is_registered = result is not None
+            return jsonify({"isRegistered": is_registered}), 200
     except Exception as e:
-        print(f"Database insertion failed: {e}")
-        return False
-    finally:
-        cursor.close()
-        conn.close()
+        app.logger.error(f"Error checking user status: {e}")
+        return jsonify({"message": "Error checking user status"}), 500
 
-@app.route('/api/check-user', methods=['POST'])
-def check_user():
-    user_id = request.json.get('userId')
-    user_exists, user_data = check_user_in_database(user_id)
 
-    if user_exists:
-        return jsonify({'exists': True, 'userData': user_data})
-    else:
-        return jsonify({'exists': False})
-
-def check_user_in_database(user_id):
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)  # Use dictionary cursor to get data as dictionaries
-
+@app.route('/add_basic_user', methods=['POST'])
+def add_basic_user():
     try:
-        # Replace 'users' with your actual table name and appropriate column names
-        cursor.execute("SELECT * FROM users WHERE user_token = %s", (user_id,))
-        user_data = cursor.fetchone()
-        return (user_data is not None, user_data)
+        user_data = request.json
+        user_id = user_data.get('user_id')  # Changed from auth0_id to user_id
+        email = user_data.get('email')
+
+        if not user_id or not email:
+            return jsonify({"message": "Missing user_id or email"}), 400
+
+        with pool.connect() as conn:
+            query = sqlalchemy.text(
+                "INSERT INTO user_basic_info (user_id, email) VALUES (:user_id, :email)"
+            )
+            conn.execute(query, {'user_id': user_id, 'email': email})  # Updated the keys to match the placeholders
+            conn.commit()
+        return jsonify({"message": "User added successfully"}), 201
     except Exception as e:
-        print(f"Database query failed: {e}")
-        return False, None
-    finally:
-        cursor.close()
-        conn.close()
+        app.logger.error(f"Error adding user: {e}")
+        return jsonify({"message": "Error adding user"}), 500
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080)

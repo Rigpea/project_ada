@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import UserInfo from "../../components/UserInfo.js";
+import Test from "../../components/test.js";
 import './LoggedInPage.css';
 
 const LoggedInPage = () => {
@@ -49,6 +50,7 @@ const LoggedInPage = () => {
       <div className="content">
         <h1>Welcome to the Loggedin Page</h1>
         <UserInfo />
+        <Test/>
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Logout
         </button>

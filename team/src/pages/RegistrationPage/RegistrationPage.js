@@ -1,71 +1,49 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
-  const { user } = useAuth0();
-  const [formData, setFormData] = useState({
-    auth0_id: user.sub,  // Assuming this is how you get the Auth0 ID
-    email: user.email,
-    hobbies: '',
-    tasks: '',
-    emoji: '',
-    date_of_birth: ''
-  });
+  const { user, isAuthenticated } = useAuth0();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    setIsSubmitting(true); // Indicate that submission is in progress
     try {
-      const response = await fetch('http://localhost:8080/add_user', {
+      const response = await fetch('http://localhost:8080/add_basic_user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          user_id: user.sub, // Use 'user_id' to match the expected parameter in your SQL statement
+          email: user.email
+        })
       });
-      const data = await response.json();
-      console.log(data.message);
-      // Redirect or display success message
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        navigate('/loggedIn'); // Redirect to the loggedIn page
+      } else {
+        throw new Error('Failed to register');
+      }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      // Handle the error
+      console.error('Error submitting user info:', error);
+    } finally {
+      setIsSubmitting(false); // Indicate that submission is done
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        name="displayName"
-        value={formData.displayName} 
-        onChange={handleChange}
-        placeholder="Display Name"
-      />
-      <input 
-        type="date" 
-        name="dateOfBirth"
-        value={formData.dateOfBirth} 
-        onChange={handleChange}
-      />
-      <input 
-        type="text" 
-        name="hobbies"
-        value={formData.hobbies} 
-        onChange={handleChange}
-        placeholder="Hobbies"
-      />
-      <input
-        type="text"
-        name="emoji"
-        value={formData.emoji}
-        onChange={handleChange}
-        placeholder="Emoji"
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      {isAuthenticated && !isSubmitting ? (
+        <button onClick={handleSubmit}>
+          Register
+        </button>
+      ) : (
+        <p>{isSubmitting ? 'Submitting...' : 'Please log in to register.'}</p>
+      )}
+    </div>
   );
 };
 
