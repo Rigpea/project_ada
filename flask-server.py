@@ -187,13 +187,19 @@ def add_points():
 
 @app.route('/subtract_points', methods=['POST'])
 def subtract_points():
-    user_id = request.json.get('user_id')
+    data = request.json
+    user_id = data['user_id']
+    url = data['url']
+
     with pool.connect() as conn:
-        conn.execute(
-            "UPDATE user_points_hobbies SET points = points - 50 WHERE user_id = %s", (user_id,)
+        # Your logic to subtract points
+        update_query = sqlalchemy.text(
+            "UPDATE user_points_hobbies SET points = points - 50 WHERE user_id = :user_id"
         )
+        conn.execute(update_query, {'user_id': user_id})
         conn.commit()
-        return jsonify({"message": "Points subtracted"}), 200
+
+    return jsonify({"message": "Points subtracted"}), 200
 
 
 
