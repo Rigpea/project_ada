@@ -1,0 +1,119 @@
+.podcastsandbooks {
+    display: flex; /* This makes it a flex container */
+    justify-content: space-between; /* This will space out the child elements evenly */
+    align-items: flex-start; /* Aligns items to the start of the flex container */
+    gap: 10px; /* Optional: adds some space between flex items */
+    font-family: monospace;
+    margin-top: 65px;
+    text-align:left;
+}
+.headerpodcast h1{
+    margin-left: 250px;
+}
+
+.header h1{
+    margin-left: 165px;
+   /* Center the heading */
+
+}
+.recommendations-container {
+    flex:1;
+    width: 86%; /* Adjust the width as needed */
+    max-width: 600px; /* Set a max-width if you want it to be less than half the page at larger sizes */
+    margin-right: 150px; /* Adjust this to set the left margin */
+
+    /* Space from the top of the viewport */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.179); /* A subtle shadow for a "card" effect */
+    background-color: #96dcfd88; /* A light yellow background similar to the uploaded image */
+    border-radius: 8px; /* Rounded corners for the box */
+    list-style-type: none; /* Removes default list styling */
+    overflow-y: auto; /* Adds a vertical scrollbar to the container */
+    max-height: 80vh; /* Adjust the height as needed for scrolling */
+  }
+  
+  .recommendations-container ul {
+    margin: 0; /* Removes default margin */
+    padding: 20px; /* Removes default padding */
+  }
+  
+  .recommendations-container li {
+    border-bottom: 1px solid #00000000; /* A light border for each list item */
+    padding: 10px; /* Some padding around the content */
+  }
+  
+  .recommendations-container li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+  }
+  
+  .recommendations-container h2 {
+    margin: 0 0 10px 0; /* Headline margins */
+    font-size: 1.2em; /* Adjust headline size as needed */
+    color: #333; /* Darker text for better readability on light yellow background */
+  }
+  
+  .recommendations-container p {
+    margin: 0; /* Removes default margin */
+    color: #666; /* Lighter text color for descriptions */
+  }
+  
+  .recommendations-container a {
+    color: #007bff; /* A standard link color */
+    text-decoration: none; /* Removes underline from links */
+  }
+  
+  .recommendations-container a:hover {
+    text-decoration: underline; /* Underline on hover for better user experience */
+  }
+
+  .recommendations-containerB {
+    flex:1;
+    width: 86%; /* Adjust the width as needed */
+    max-width: 600px; /* Set a max-width if you want it to be less than half the page at larger sizes */
+    margin-left: 150px; /* Adjust this to set the left margin */
+
+    /* Space from the top of the viewport */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* A subtle shadow for a "card" effect */
+    background-color: #96dcfd88; /* A light yellow background similar to the uploaded image */
+    border-radius: 8px; /* Rounded corners for the box */
+    list-style-type: none; /* Removes default list styling */
+    overflow-y: auto; /* Adds a vertical scrollbar to the container */
+    max-height: 80vh; /* Adjust the height as needed for scrolling */
+  }
+  
+  .recommendations-containerB ul {
+    margin: 0; /* Removes default margin */
+    padding: 20px; /* Removes default padding */
+  }
+  
+  .recommendations-containerB li {
+    border-bottom: 1px solid #00000000; /* A light border for each list item */
+    padding: 10px; /* Some padding around the content */
+  }
+  
+  .recommendations-containerB li:last-child {
+    border-bottom: none; /* Remove border from the last item */
+  }
+  
+  .recommendations-containerB h2 {
+    margin: 0 0 10px 0; /* Headline margins */
+    font-size: 1.2em; /* Adjust headline size as needed */
+    color: #333; /* Darker text for better readability on light yellow background */
+  }
+  
+  .recommendations-containerB p {
+    margin: 0; /* Removes default margin */
+    color: #666; /* Lighter text color for descriptions */
+  }
+  
+  .recommendations-containerB a {
+    color: #007bff; /* A standard link color */
+    text-decoration: none; /* Removes underline from links */
+  }
+  
+  .recommendations-containerB a:hover {
+    text-decoration: underline; /* Underline on hover for better user experience */
+  }
+  
+  

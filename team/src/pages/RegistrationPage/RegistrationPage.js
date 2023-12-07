@@ -27,7 +27,7 @@ const RegistrationPage = () => {
         })
       });
       if (response.ok) {
-        navigate('/loggedIn');
+        navigate('/loggedinpage');
       } else {
         throw new Error('Failed to register');
       }

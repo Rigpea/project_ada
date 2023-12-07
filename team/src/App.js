@@ -7,6 +7,7 @@ import LoggedInPage from './pages/LoggedInPage/LoggedInPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import BlockedPage from './pages/BlcokedPage/BlockedPage';
+import Recommendations from './pages/Recommendations/Recommendations';
 
 const App = () => {
   return (
@@ -17,9 +18,10 @@ const App = () => {
         {/* <Route path="/register" element={<RegistrationPage.js/>} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/loggedIn" element={<LoggedInPage />} />
+        <Route path="/loggedinpage" element={<LoggedInPage />} />
         <Route path="/profilepage" element={<ProfilePage />} />
         <Route path="/registrationpage" element={<RegistrationPage/>} />
+        <Route path="/recommendations" element={<Recommendations/>}/>
         <Route path="/blockedpage" element={<BlockedPage/>} />
       </Routes>
     </Router>
