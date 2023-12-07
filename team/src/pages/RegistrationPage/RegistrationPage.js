@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
   const { user, isAuthenticated } = useAuth0();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [displayName, setDisplayName] = useState('');
+  const [hobbies, setHobbies] = useState('');
+  const [blockedSites, setBlockedSites] = useState('');
 
   const handleSubmit = async () => {
-    setIsSubmitting(true); // Indicate that submission is in progress
+    setIsSubmitting(true);
     try {
       const response = await fetch('http://localhost:8080/add_basic_user', {
         method: 'POST',
@@ -16,30 +19,49 @@ const RegistrationPage = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_id: user.sub, // Use 'user_id' to match the expected parameter in your SQL statement
-          email: user.email
+          user_id: user.sub,
+          email: user.email,
+          display_name: displayName,
+          hobbies: hobbies.split(',').map(hobby => hobby.trim()), // Assuming hobbies are comma-separated
+          blocked_sites: blockedSites.split(',').map(site => site.trim()) // Assuming blocked sites are comma-separated
         })
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data.message);
-        navigate('/loggedIn'); // Redirect to the loggedIn page
+        navigate('/loggedIn');
       } else {
         throw new Error('Failed to register');
       }
     } catch (error) {
       console.error('Error submitting user info:', error);
     } finally {
-      setIsSubmitting(false); // Indicate that submission is done
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div>
       {isAuthenticated && !isSubmitting ? (
-        <button onClick={handleSubmit}>
-          Register
-        </button>
+        <>
+          <input 
+            type="text"
+            placeholder="Display Name"
+            value={displayName}
+            onChange={e => setDisplayName(e.target.value)}
+          />
+          <input 
+            type="text"
+            placeholder="Hobbies (comma-separated)"
+            value={hobbies}
+            onChange={e => setHobbies(e.target.value)}
+          />
+          <input 
+            type="text"
+            placeholder="Blocked Sites (comma-separated URLs)"
+            value={blockedSites}
+            onChange={e => setBlockedSites(e.target.value)}
+          />
+          <button onClick={handleSubmit}>Register</button>
+        </>
       ) : (
         <p>{isSubmitting ? 'Submitting...' : 'Please log in to register.'}</p>
       )}
