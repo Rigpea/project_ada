@@ -4,9 +4,13 @@ from google.cloud.sql.connector import Connector
 import requests
 import mysql.connector
 import sqlalchemy
+from openai import OpenAI
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
+
+OPENAI_API_KEY = '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'
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 #init the database connection variables
 DB_CONNECTION_STRING = 'credible-art-407019:us-central1:adadatabase'
@@ -260,7 +264,42 @@ def get_points():
             return jsonify({"points": points})
         else:
             return jsonify({"points": 0})
-        
+
+#GPT endpoints
+
+def chat_with_gpt( description=None, model="gpt-3.5-turbo"):
+    try:
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant, knowledgeable in talking about hobies and crafting schedules for productivity"},
+            {"role": "user", "content": f"I am a person ready to be productive for the dat."}
+        ]
+
+        if description:
+            messages.append({"role": "user", "content": f"It should be like this: {description}"})
+            messages.append({"role": "system", "content": f"Based on the description, provide a specific price recommendation for the {item}."})
+
+        response = client.chat.completions.create(model=model, messages=messages)
+
+        if response.choices:
+            choice = response.choices[0]
+            if hasattr(choice, 'message') and hasattr(choice.message, 'content'):
+                return choice.message.content
+            else:
+                return "Sorry, I couldn't process that response."
+        else:
+            return "No response received from the API."
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "Sorry, there was an error."
+
+@app.route('/api/gpt-chat', methods=['POST'])
+def gpt_chat():
+    data = request.json
+    item = data.get('item')
+    description = data.get('description', None)
+    response = chat_with_gpt(item, description)
+    return jsonify({'response': response})
 
 
 
