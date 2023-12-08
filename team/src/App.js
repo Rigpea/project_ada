@@ -8,6 +8,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import BlockedPage from './pages/BlcokedPage/BlockedPage';
 import Recommendations from './pages/Recommendations/Recommendations';
+import Points from './pages/PointsPage/PointsPage';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/registrationpage" element={<RegistrationPage/>} />
         <Route path="/recommendations" element={<Recommendations/>}/>
         <Route path="/blockedpage" element={<BlockedPage/>} />
+        <Route path="/points" element={<Points/>}/>
       </Routes>
     </Router>
   );

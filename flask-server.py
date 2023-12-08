@@ -166,14 +166,7 @@ def delete_blocked_site():
 
 
 
-@app.route('/get_points', methods=['GET'])
-def get_points():
-    user_id = request.args.get('user_id')
-    with pool.connect() as conn:
-        result = conn.execute(
-            "SELECT points FROM user_points_hobbies WHERE user_id = %s", (user_id,)
-        ).fetchone()
-        return jsonify(result) if result else jsonify({"points": 0})
+
 
 
 @app.route('/add_points', methods=['POST'])
@@ -250,6 +243,23 @@ def get_display_name():
             return jsonify(result[0])
         else:
             return jsonify({'display_name': 'No display name found'})
+        
+
+@app.route('/get_points', methods=['GET'])
+def get_points():
+    user_id = request.args.get('user_id')
+    with pool.connect() as conn:
+        query = sqlalchemy.text(
+            "SELECT points FROM user_points_hobbies WHERE user_id = :user_id"
+        )
+        result = conn.execute(query, {'user_id': user_id}).fetchone()
+        
+        if result:
+            # Extract points value from result
+            points = result[0]
+            return jsonify({"points": points})
+        else:
+            return jsonify({"points": 0})
 
 
 
