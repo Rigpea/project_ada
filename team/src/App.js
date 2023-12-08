@@ -9,6 +9,8 @@ import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import BlockedPage from './pages/BlcokedPage/BlockedPage';
 import Recommendations from './pages/Recommendations/Recommendations';
 import Points from './pages/PointsPage/PointsPage';
+import Tasks from './pages/TasksPage/TasksPage';
+
 
 const App = () => {
   return (
@@ -25,6 +27,7 @@ const App = () => {
         <Route path="/recommendations" element={<Recommendations/>}/>
         <Route path="/blockedpage" element={<BlockedPage/>} />
         <Route path="/points" element={<Points/>}/>
+        <Route path="/tasks" element={<Tasks/>}/>
       </Routes>
     </Router>
   );
