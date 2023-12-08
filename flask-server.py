@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, json
 from flask_cors import CORS  # Import CORS
 from google.cloud.sql.connector import Connector
+import requests
 import mysql.connector
 import sqlalchemy
 
@@ -201,6 +202,54 @@ def subtract_points():
 
     return jsonify({"message": "Points subtracted"}), 200
 
+#Recommendation Page:
+@app.route('/api/articles', methods=['GET'])
+def get_top_headlines():
+    url = 'https://newsapi.org/v2/top-headlines'
+    params = {
+        'country': 'us',
+        'apiKey': 'f21b3cb4f9c1495084f3e6da6f87a63a'
+    }
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    articles = response.json().get('articles', [])[:10]
+    return jsonify(articles)
+
+@app.route('/api/top-books', methods=['GET'])
+def get_top_books():
+      # Make sure to set this environment variable
+    request_url = "https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key=ejQFJNMU7cssAAa2V8KP54kjCOhd6ZAh"
+    
+    params = {
+        "Accept": "application/json"
+    }
+
+    response = requests.get(request_url, headers=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        top_books = data['results'][:10]  # Assuming you want the first 10 results
+        return jsonify(top_books)
+    else:
+        # It's a good idea to handle different HTTP status codes
+        return jsonify({
+            'error': 'Failed to fetch data',
+            'status_code': response.status_code
+        }), response.status_code
+        
+@app.route('/get_display_name', methods=['GET'])
+def get_display_name():
+    user_id = request.args.get('user_id')
+    with pool.connect() as conn:
+        query = sqlalchemy.text(
+            "SELECT display_name FROM user_basic_info WHERE user_id = :user_id"
+        )
+        result = conn.execute(query, {'user_id': user_id}).fetchone()
+
+        if result is not None and result[0] is not None:
+            return jsonify(result[0])
+        else:
+            return jsonify({'display_name': 'No display name found'})
 
 
 

@@ -1,119 +1,89 @@
 .podcastsandbooks {
-    display: flex; /* This makes it a flex container */
-    justify-content: space-between; /* This will space out the child elements evenly */
-    align-items: flex-start; /* Aligns items to the start of the flex container */
-    gap: 10px; /* Optional: adds some space between flex items */
     font-family: monospace;
+    display: flex;
+    flex-direction: column; /* Stacks the containers on top of each other */
+    align-items: center; /* Centers containers on the cross axis */
     margin-top: 65px;
-    text-align:left;
-}
-.headerpodcast h1{
-    margin-left: 250px;
+    text-align: left;
+    width: 80%; /* Adjusts the width of the container */
+    margin: auto; /* Centers the container on the page */
 }
 
-.header h1{
-    margin-left: 165px;
-   /* Center the heading */
-
+.headerpodcast h1, .header h1 {
+    text-align: center; /* Centers the headings */
+    margin-top: 20px; /* Adds space above the headings */
 }
-.recommendations-container {
-    flex:1;
-    width: 86%; /* Adjust the width as needed */
-    max-width: 600px; /* Set a max-width if you want it to be less than half the page at larger sizes */
-    margin-right: 150px; /* Adjust this to set the left margin */
 
-    /* Space from the top of the viewport */
+.recommendations-container, .recommendations-containerB {
+    width: 100%; /* Allows the container to fill the width of its parent */
+    margin-bottom: 30px; /* Adds space below the container */
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.179); /* A subtle shadow for a "card" effect */
-    background-color: #96dcfd88; /* A light yellow background similar to the uploaded image */
-    border-radius: 8px; /* Rounded corners for the box */
-    list-style-type: none; /* Removes default list styling */
-    overflow-y: auto; /* Adds a vertical scrollbar to the container */
-    max-height: 80vh; /* Adjust the height as needed for scrolling */
-  }
-  
-  .recommendations-container ul {
-    margin: 0; /* Removes default margin */
-    padding: 20px; /* Removes default padding */
-  }
-  
-  .recommendations-container li {
-    border-bottom: 1px solid #00000000; /* A light border for each list item */
-    padding: 10px; /* Some padding around the content */
-  }
-  
-  .recommendations-container li:last-child {
-    border-bottom: none; /* Remove border from the last item */
-  }
-  
-  .recommendations-container h2 {
-    margin: 0 0 10px 0; /* Headline margins */
-    font-size: 1.2em; /* Adjust headline size as needed */
-    color: #333; /* Darker text for better readability on light yellow background */
-  }
-  
-  .recommendations-container p {
-    margin: 0; /* Removes default margin */
-    color: #666; /* Lighter text color for descriptions */
-  }
-  
-  .recommendations-container a {
-    color: #007bff; /* A standard link color */
-    text-decoration: none; /* Removes underline from links */
-  }
-  
-  .recommendations-container a:hover {
-    text-decoration: underline; /* Underline on hover for better user experience */
-  }
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.179);
+    background-color: #96dcfd88;
+    border-radius: 8px;
+    list-style-type: none;
+    overflow-y: auto;
+    max-height: 80vh;
+}
 
-  .recommendations-containerB {
-    flex:1;
-    width: 86%; /* Adjust the width as needed */
-    max-width: 600px; /* Set a max-width if you want it to be less than half the page at larger sizes */
-    margin-left: 150px; /* Adjust this to set the left margin */
+.recommendations-container ul, .recommendations-containerB ul {
+    padding: 0;
+}
 
-    /* Space from the top of the viewport */
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* A subtle shadow for a "card" effect */
-    background-color: #96dcfd88; /* A light yellow background similar to the uploaded image */
-    border-radius: 8px; /* Rounded corners for the box */
-    list-style-type: none; /* Removes default list styling */
-    overflow-y: auto; /* Adds a vertical scrollbar to the container */
-    max-height: 80vh; /* Adjust the height as needed for scrolling */
-  }
-  
-  .recommendations-containerB ul {
-    margin: 0; /* Removes default margin */
-    padding: 20px; /* Removes default padding */
-  }
-  
-  .recommendations-containerB li {
-    border-bottom: 1px solid #00000000; /* A light border for each list item */
-    padding: 10px; /* Some padding around the content */
-  }
-  
-  .recommendations-containerB li:last-child {
-    border-bottom: none; /* Remove border from the last item */
-  }
-  
-  .recommendations-containerB h2 {
-    margin: 0 0 10px 0; /* Headline margins */
-    font-size: 1.2em; /* Adjust headline size as needed */
-    color: #333; /* Darker text for better readability on light yellow background */
-  }
-  
-  .recommendations-containerB p {
-    margin: 0; /* Removes default margin */
-    color: #666; /* Lighter text color for descriptions */
-  }
-  
-  .recommendations-containerB a {
-    color: #007bff; /* A standard link color */
-    text-decoration: none; /* Removes underline from links */
-  }
-  
-  .recommendations-containerB a:hover {
-    text-decoration: underline; /* Underline on hover for better user experience */
-  }
-  
+.recommendations-container li, .recommendations-containerB li {
+    border-bottom: 1px solid #ddd; /* A light border for each list item */
+    padding: 10px;
+}
+
+.recommendations-container li:last-child, .recommendations-containerB li:last-child {
+    border-bottom: none;
+}
+
+.recommendations-container h2, .recommendations-containerB h2 {
+    color: #333;
+}
+
+.recommendations-container p, .recommendations-containerB p {
+    color: #666;
+}
+
+.recommendations-container a, .recommendations-containerB a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.recommendations-container a:hover, .recommendations-containerB a:hover {
+    text-decoration: underline;
+}
+
+.navigation-bar {
+    background-color: #333;
+    padding: 10px 0;
+    position: flex; /* Makes the navbar stick to the top */
+    top: 0;
+    width: 100%; /* Ensures the navbar stretches across the full width */
+    z-index: 1000; /* Ensures the navbar stays on top of other elements */
+}
+
+.navigation-bar ul {
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centers the navigation items */
+    gap: 20px; /* Adds space between navigation items */
+}
+
+.navigation-bar ul li {
+    list-style-type: none;
+}
+
+.navigation-bar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.navigation-bar ul li a:hover {
+    background-color: #111;
+}
+
   

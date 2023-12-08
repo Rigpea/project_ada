@@ -1,0 +1,29 @@
+.navigation-bar {
+    background-color: #333;
+    padding: 10px 0;
+    position: flex; /* Makes the navbar stick to the top */
+    top: 0;
+    width: 100%; /* Ensures the navbar stretches across the full width */
+    z-index: 1000; /* Ensures the navbar stays on top of other elements */
+}
+
+.navigation-bar ul {
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centers the navigation items */
+    gap: 20px; /* Adds space between navigation items */
+}
+
+.navigation-bar ul li {
+    list-style-type: none;
+}
+
+.navigation-bar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+.navigation-bar ul li a:hover {
+    background-color: #111;
+}

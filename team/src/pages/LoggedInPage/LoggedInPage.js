@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import UserInfo from "../../components/UserInfo.js";
 import Test from "../../components/test.js";
 import './LoggedInPage.css';
+import Navbar from "../../components/navbar.js";
 
 
 
@@ -14,6 +15,7 @@ const LoggedInPage = () => {
   const [blockedSites, setBlockedSites] = useState([]);
   const [newSite, setNewSite] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [displayName, setDisplayName] = useState([]);
 
 
  
@@ -36,6 +38,25 @@ const fetchBlockedSites = async () => {
 useEffect(() => {
   if (user && user.sub) {
     fetchBlockedSites();
+  }
+}, [user]);
+const fetchDisplayName = async () => {
+  setIsLoading(true);
+    try {
+    const response = await fetch(`http://localhost:8080/get_display_name?user_id=${encodeURIComponent(user.sub)}`);
+    if (response.ok) {
+      const data = await response.text(); // Assuming the response is a string
+      setDisplayName(data); // Set the response data to the state variable
+    }
+  } catch (error) {
+    console.error('Error fetching blocked sites:', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+useEffect(() => {
+  if (user && user.sub) {
+    fetchDisplayName();
   }
 }, [user]);
 
@@ -109,20 +130,11 @@ useEffect(() => {
 
   return (
     <div className="logged-in-container">
-      <nav className="navigation-bar">
-        {/* Navigation items */}
-        <ul>
-          <li><a href="/loggedinpage">Home</a></li>
-          <li><a href="/tasks">Tasks</a></li>
-          <li><a href="/points">Points</a></li>
-          <li><a href="/recommendations">Recommendations</a></li>
-          <li><a href="/profilepage">Profile</a></li>
-        </ul>
-      </nav>
+      <Navbar/>
       <div className="content">
-        <h1>Welcome to the Loggedin Page</h1>
+        <h1>Welcome {displayName}</h1>
         <UserInfo />
-        <Test/>
+        <p id="welcom-message">Lets Get Productive</p>
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Logout
         </button>
@@ -149,7 +161,7 @@ useEffect(() => {
         </>
       )}
       <div>
-      <h2>Blocked Sites Response</h2>
+      <h2>These Sites Waste Time. You are all you need!</h2>
       <p>{blockedSitesResponse}</p> {/* This will display the response */}
     </div>
     </div>

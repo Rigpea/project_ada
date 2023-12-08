@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import fetchArticles from '../../components/newsAPI';
 import fetchTopBooks from '../../components/bookAPI'; 
 import './Recommendations.css';  // Adjust the import path as needed
+import Navbar from "../../components/navbar.js";
 
 const Recommendations = () => {
   const [articles, setArticles] = useState([]);
@@ -25,16 +26,7 @@ const Recommendations = () => {
 
   return (
     <div className="podcastsandbooks">
-    <nav className="navigation-bar">
-        {/* Navigation items */}
-        <ul>
-          <li><a href="/loggedinpage">Home</a></li>
-          <li><a href="/tasks">Tasks</a></li>
-          <li><a href="/points">Points</a></li>
-          <li><a href="/recommendations">Recommendations</a></li>
-          <li><a href="/profilepage">Profile</a></li>
-        </ul>
-      </nav>
+    <Navbar/>
       <div className="headerpodcast">
         <h1>Top Ten Best-Selling Books:</h1>
         <div className="recommendations-containerB">
