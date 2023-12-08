@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import './PointsPage.css'; // Add your CSS file for styling
+import Navbar from "../../components/navbar.js";
 
 const PointsPage = () => {
   const { user } = useAuth0();
@@ -35,6 +36,7 @@ const PointsPage = () => {
 
   return (
     <div className="points-container">
+    <Navbar/>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
