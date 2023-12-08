@@ -260,6 +260,7 @@ def get_points():
             return jsonify({"points": points})
         else:
             return jsonify({"points": 0})
+        
 
 
 
