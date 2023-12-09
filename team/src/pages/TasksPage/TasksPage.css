@@ -1,0 +1,76 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  /* This ensures that the body takes the full height of the viewport */
+  height: 100%;
+}
+  
+  .navigation-bar ul {
+    list-style-type: none;
+    padding: 0;
+    background-color: #333;
+    overflow: hidden;
+    margin: 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .navigation-bar li {
+    float: left;
+  }
+  
+  .navigation-bar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .navigation-bar li a:hover {
+    background-color: #111;
+  }
+  
+  .tasks-page {
+    background-color: #f0f0f0; /* Light grey background */
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  /* Task Input Form Styling */
+  .add-task-form {
+    margin-bottom: 30px;
+  }
+  
+  .add-task-form input[type='text'],
+  .add-task-form input[type='number'] {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-task-form button {
+    padding: 10px 15px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .add-task-form button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Tasks List Styling */
+  .tasks-list .task {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .task span {
+    margin-right: 15px;
+  }
