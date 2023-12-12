@@ -170,16 +170,16 @@ def delete_blocked_site():
 
 
 
-
-
-
 @app.route('/add_points', methods=['POST'])
 def add_points():
+    data = request.json
     user_id = request.json.get('user_id')
+
     with pool.connect() as conn:
-        conn.execute(
-            "UPDATE user_points_hobbies SET points = points + 100 WHERE user_id = %s", (user_id,)
+        update_query = sqlalchemy.text(
+            "UPDATE user_points_hobbies SET points = points + 100 WHERE user_id = :user_id"
         )
+        conn.execute(update_query, {'user_id': user_id})
         conn.commit()
         return jsonify({"message": "Points added"}), 200
 
