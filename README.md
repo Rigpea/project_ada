@@ -1,6 +1,6 @@
 # project_ada
 
-# Video demonstration: https://youtu.be/2PfJo2evavk
+# Video demonstration: https://youtu.be/0ffQmcu9liI
 
 # Project description: 
 This app focuses on promoting productivity by gamifying tasks. Once the user goes to the Tasks page, they can enter a task name and the estimated amount of time to complete that task. Once the task is entered, users can start the timer and start doing their task. Once the timer is over, points are given to that user, which is stored in the database. The Recommendations page takes in the user's hobbies and returns a list of articles or books they might like based on the hobbies they entered. Finally, there is a Leaderboard page (not complete) that would allow users to compare their scores with friends.
