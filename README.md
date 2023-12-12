@@ -12,7 +12,7 @@ React.js (HTML and JavaScript) and CSS (styling)
 Backend:
 Python Flask (Connects frontend to backend), Google Cloud (hosting database), MySQL (database)
 
-#Challenges we faced: 
+# Challenges we faced: 
 React Component State Management: Managing state across various components in React, particularly in handling user input and fetching data dynamically.
 Error Handling and Debugging (a lot of time was spent on this): Identifying and resolving various errors, such as uncaught runtime errors, React Hook rules, and issues with undefined variables or functions.
 
